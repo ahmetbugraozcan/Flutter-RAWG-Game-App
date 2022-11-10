@@ -2,7 +2,7 @@
     package="com.example.appcentflutterassignment">
     <uses-permission android:name="android.permission.INTERNET" /> 
    <application
-        android:label="appcentflutterassignment"
+        android:label="RAWG"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'GameApp',
+      title: 'RAWG',
       theme: AppThemeLight.instance.themeData,
       home: const SplashView(),
     );
