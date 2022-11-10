@@ -1,0 +1,1 @@
+enum LottieEnums { gamelottie, notfound }
