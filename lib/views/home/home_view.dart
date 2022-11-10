@@ -98,15 +98,15 @@ class HomeView extends StatelessWidget {
 
   Widget buildIdleScreen(BuildContext context) {
     return SingleChildScrollView(
+      controller: context.read<HomeProvider>().scrollController,
       child: Column(
         children: [
           buildSearchWidget(context),
           buildPageView(),
           const SizedBox(height: 12),
           ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            controller: context.read<HomeProvider>().scrollController,
             //itemcountu böyle vermemin sebebi ilk 3 oyunun pageviewda geri kalanının listviewda gösterilmesi için
             itemCount: context
                 .watch<HomeProvider>()
