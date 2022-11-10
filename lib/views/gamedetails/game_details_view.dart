@@ -61,7 +61,8 @@ class _GameDetailsViewState extends State<GameDetailsView> {
                           Stack(
                             children: [
                               buildDetailsImage(gameDetail),
-                              buildAddToFavoritesButton(gameDetail)
+                              buildAddToFavoritesButton(gameDetail),
+                              buildBackButton(),
                             ],
                           ),
                           const SizedBox(height: 12),
@@ -77,6 +78,31 @@ class _GameDetailsViewState extends State<GameDetailsView> {
         ),
       );
     }
+  }
+
+  Widget buildBackButton() {
+    return Positioned(
+      top: 6,
+      left: 6,
+      child: Align(
+        alignment: Alignment.topLeft,
+        child: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
+            shadows: [
+              Shadow(
+                blurRadius: 2.0,
+                color: Colors.black,
+              ),
+            ],
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+    );
   }
 
   CachedNetworkImage buildDetailsImage(GameDetailModel gameDetail) {
@@ -109,13 +135,38 @@ class _GameDetailsViewState extends State<GameDetailsView> {
             ),
           ],
         ),
-        onPressed: () {
+        onPressed: () async {
           if (context
               .read<FavoritesProvider>()
               .checkIsInFavorites(gameDetail.id)) {
-            context.read<FavoritesProvider>().removeFavorite(gameDetail.id);
+            bool isRemoved = await context
+                .read<FavoritesProvider>()
+                .removeFavorite(gameDetail.id);
+            if (isRemoved) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    "Removed from favorites",
+                    style: context.textTheme.bodyText1,
+                  ),
+                  backgroundColor: Colors.red,
+                ),
+              );
+            }
           } else {
-            context.read<FavoritesProvider>().addFavorite(gameDetail);
+            bool isAdded =
+                await context.read<FavoritesProvider>().addFavorite(gameDetail);
+            if (isAdded) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    "Added to favorites",
+                    style: context.textTheme.bodyText1,
+                  ),
+                  backgroundColor: Colors.green,
+                ),
+              );
+            }
           }
         },
       ),

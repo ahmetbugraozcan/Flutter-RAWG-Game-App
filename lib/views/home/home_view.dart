@@ -96,14 +96,16 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Column buildIdleScreen(BuildContext context) {
-    return Column(
-      children: [
-        buildSearchWidget(context),
-        buildPageView(),
-        const SizedBox(height: 12),
-        Expanded(
-          child: ListView.builder(
+  Widget buildIdleScreen(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          buildSearchWidget(context),
+          buildPageView(),
+          const SizedBox(height: 12),
+          ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
             controller: context.read<HomeProvider>().scrollController,
             //itemcountu böyle vermemin sebebi ilk 3 oyunun pageviewda geri kalanının listviewda gösterilmesi için
             itemCount: context
@@ -132,8 +134,8 @@ class HomeView extends StatelessWidget {
               }
             },
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

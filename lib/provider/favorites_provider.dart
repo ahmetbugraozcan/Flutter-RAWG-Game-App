@@ -24,20 +24,22 @@ class FavoritesProvider extends ChangeNotifier {
     }
   }
 
-  addFavorite(GameDetailModel? model) async {
-    if (model == null) return;
+  Future<bool> addFavorite(GameDetailModel? model) async {
+    if (model == null) return false;
     favorites.add(model);
     await cacheManager.setStringValue(
         PreferencesEnums.FAVORITES, jsonEncode(favorites));
     notifyListeners();
+    return true;
   }
 
-  removeFavorite(int? id) async {
-    if (id == null) return;
+  Future<bool> removeFavorite(int? id) async {
+    if (id == null) return false;
     favorites.removeWhere((element) => element.id == id);
     await cacheManager.setStringValue(
         PreferencesEnums.FAVORITES, jsonEncode(favorites));
     notifyListeners();
+    return true;
   }
 
   bool checkIsInFavorites(int? id) {

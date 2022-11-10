@@ -14,6 +14,7 @@ class FavoritesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: const Text("Favorites")),
       body: Builder(
         builder: (context) {
           if (context.watch<FavoritesProvider>().favorites.isEmpty) {
