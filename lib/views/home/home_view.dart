@@ -1,4 +1,3 @@
-import 'package:another_flushbar/flushbar.dart';
 import 'package:appcentflutterassignment/core/constants/enums/lottie_enums.dart';
 import 'package:appcentflutterassignment/core/extensions/media_query_extensions.dart';
 import 'package:appcentflutterassignment/core/extensions/theme_extension.dart';
@@ -67,10 +66,14 @@ class HomeView extends StatelessWidget {
                         height: context.dynamicHeight(40),
                       ),
                     ),
-                    Text("No games found!",
-                        style: context.textTheme.headlineSmall?.copyWith(
-                            color: context.theme.primaryColor,
-                            fontWeight: FontWeight.bold)),
+                    Text(
+                      "No games found!",
+                      style: context.textTheme.headlineSmall?.copyWith(
+                        color: context.theme.primaryColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
                   ],
                 ),
               );
