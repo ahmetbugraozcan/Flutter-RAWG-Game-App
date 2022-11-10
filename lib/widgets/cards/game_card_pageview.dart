@@ -17,7 +17,7 @@ class GameCardForPageView extends StatelessWidget {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => GameDetailsView(
-              gameID: gameModel!.id,
+              gameID: gameModel?.id,
             ),
           ),
         );

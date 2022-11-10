@@ -10,7 +10,10 @@ import 'package:provider/provider.dart';
 
 class GameDetailsView extends StatefulWidget {
   int? gameID;
-  GameDetailsView({super.key, this.gameID});
+  // favoriler gamedetail olduğu için bir daha request çıkmamıza gerek yok aşağıda bu durumu kontrol edeceğiz
+  GameDetailModel? gameDetailModel;
+
+  GameDetailsView({super.key, this.gameID, this.gameDetailModel});
 
   @override
   State<GameDetailsView> createState() => _GameDetailsViewState();
@@ -20,64 +23,64 @@ class _GameDetailsViewState extends State<GameDetailsView> {
   @override
   void initState() {
     super.initState();
-    context.read<GameDetailsProvider>().getGameDetails(widget.gameID);
+    // bu durumda kişi favorilerden değil homedan id ile gelmiştir gamedetail çekilebilir
+    if (widget.gameDetailModel == null && widget.gameID != null) {
+      context.read<GameDetailsProvider>().getGameDetails(widget.gameID);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.gameID == null) {
-      return Scaffold(
-        body: Center(
-          child: Text(
-            context.read<GameDetailsProvider>().errorMessage ??
-                "An error occurred. Please try again later.",
-            textAlign: TextAlign.end,
+    return Scaffold(
+      body: Builder(
+        builder: (context) {
+          // favorilerim kısmından gelen kişi gamedetailmodel ile geleceğinden direk render edebiliriz
+          if (widget.gameDetailModel != null) {
+            return buildGameDetailsPage(widget.gameDetailModel!, context);
+          }
+
+          // buraya düşen kişi homedan gelmiştir gamedetail id ile çekilebilir
+          if (context.watch<GameDetailsProvider>().isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else {
+            if (context.watch<GameDetailsProvider>().gameDetailModel == null) {
+              return Center(
+                child: Text(context.read<GameDetailsProvider>().errorMessage ??
+                    "An error occurred. Please try again later."),
+              );
+            } else {
+              GameDetailModel gameDetail =
+                  context.watch<GameDetailsProvider>().gameDetailModel!;
+              return buildGameDetailsPage(gameDetail, context);
+            }
+          }
+        },
+      ),
+    );
+  }
+
+  Scaffold buildGameDetailsPage(
+      GameDetailModel gameDetail, BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            children: [
+              Stack(
+                children: [
+                  buildDetailsImage(gameDetail),
+                  buildAddToFavoritesButton(gameDetail),
+                  buildBackButton(),
+                ],
+              ),
+              const SizedBox(height: 12),
+              buildDetailsBody(context, gameDetail)
+            ],
           ),
         ),
-      );
-    } else {
-      return Scaffold(
-        body: Builder(
-          builder: (context) {
-            if (context.watch<GameDetailsProvider>().isLoading) {
-              return const Center(child: CircularProgressIndicator());
-            } else {
-              if (context.watch<GameDetailsProvider>().gameDetailModel ==
-                  null) {
-                return Center(
-                  child: Text(
-                      context.read<GameDetailsProvider>().errorMessage ??
-                          "An error occurred. Please try again later."),
-                );
-              } else {
-                GameDetailModel gameDetail =
-                    context.watch<GameDetailsProvider>().gameDetailModel!;
-                return Scaffold(
-                  body: SafeArea(
-                    child: SingleChildScrollView(
-                      physics: const BouncingScrollPhysics(),
-                      child: Column(
-                        children: [
-                          Stack(
-                            children: [
-                              buildDetailsImage(gameDetail),
-                              buildAddToFavoritesButton(gameDetail),
-                              buildBackButton(),
-                            ],
-                          ),
-                          const SizedBox(height: 12),
-                          buildDetailsBody(context, gameDetail)
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              }
-            }
-          },
-        ),
-      );
-    }
+      ),
+    );
   }
 
   Widget buildBackButton() {

@@ -19,7 +19,7 @@ class FavoritesGameCard extends StatelessWidget {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => GameDetailsView(
-                gameID: gameDetailModel!.id,
+                gameDetailModel: gameDetailModel,
               ),
             ),
           );
