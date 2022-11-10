@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 
 /// Senaryo: Favorilere eklenen oyunların verileri id olarak Cache'de tutulur. Daha sonra bu idler ile oyun detayları çekilir.
 /// Bu nedenle favorilerim kısmındaki veriler [GameDetailModel] tipinde tutulur.
-/// futures listesi request sonucundan gelen [GameDetailModel] verilerini tutar. Uygulama açıkken favorilere oyun
+/// favorites listesi request sonucundan gelen [GameDetailModel] verilerini tutar. Uygulama açıkken favorilere oyun
 /// eklenir ise bu oyunun idsi Cache'e eklenirken oyunun kendisi statedeki favorites listesine eklenir.
 class FavoritesProvider extends ChangeNotifier {
   CacheManager cacheManager = CacheManager.instance;
