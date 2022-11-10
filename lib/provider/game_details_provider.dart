@@ -1,5 +1,4 @@
-import 'dart:developer';
-
+import 'package:appcentflutterassignment/core/exceptions/rawg_exception.dart';
 import 'package:appcentflutterassignment/models/game_detail_model.dart';
 import 'package:appcentflutterassignment/repository/rawg_repository.dart';
 import 'package:appcentflutterassignment/service/i_rawg_service.dart';
@@ -10,13 +9,17 @@ class GameDetailsProvider extends ChangeNotifier {
 
   bool isLoading = false;
   GameDetailModel? gameDetailModel;
+  String? errorMessage;
   Future<void> getGameDetails(int? id) async {
     if (id == null) return;
     try {
+      errorMessage = null;
       isLoading = true;
       gameDetailModel = await _rawgService.getGameDetails(id);
+    } on RawgException catch (e) {
+      errorMessage = e.message;
     } catch (e) {
-      log(e.toString());
+      errorMessage = "An error occured";
     } finally {
       isLoading = false;
     }

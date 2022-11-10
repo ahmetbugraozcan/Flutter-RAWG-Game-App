@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:appcentflutterassignment/core/constants/app_constants.dart';
+import 'package:appcentflutterassignment/core/exceptions/rawg_exception.dart';
 import 'package:appcentflutterassignment/models/game_detail_model.dart';
 import 'package:appcentflutterassignment/models/game_model.dart';
 import 'package:appcentflutterassignment/service/i_rawg_service.dart';
@@ -28,6 +29,11 @@ class RawgService extends IRawgService {
           .map((e) => GameModel.fromJson(e))
           .toList();
     } else {
+      if (json.decode(response.body)["error"] != null) {
+        throw RawgException(json.decode(response.body)["error"]);
+      } else if (jsonDecode(response.body)["detail"] != null) {
+        throw RawgException(jsonDecode(response.body)["detail"]);
+      }
       return null;
     }
   }
@@ -40,6 +46,11 @@ class RawgService extends IRawgService {
     if (response.statusCode == 200) {
       return GameDetailModel.fromJson(json.decode(response.body));
     } else {
+      if (json.decode(response.body)["error"] != null) {
+        throw RawgException(json.decode(response.body)["error"]);
+      } else if (jsonDecode(response.body)["detail"] != null) {
+        throw RawgException(jsonDecode(response.body)["detail"]);
+      }
       return null;
     }
   }

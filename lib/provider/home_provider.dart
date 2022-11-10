@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:appcentflutterassignment/core/exceptions/rawg_exception.dart';
 import 'package:appcentflutterassignment/models/game_model.dart';
 import 'package:appcentflutterassignment/repository/rawg_repository.dart';
 import 'package:appcentflutterassignment/service/i_rawg_service.dart';
@@ -44,6 +45,7 @@ class HomeProvider extends ChangeNotifier {
     });
   }
 
+  String? errorText;
   TextEditingController searchFieldController = TextEditingController();
 
   int page = 1;
@@ -60,10 +62,13 @@ class HomeProvider extends ChangeNotifier {
 
   Future<void> getAllGamesFirstTime() async {
     try {
+      errorText = null;
       isLoading = true;
       allGames = await rawgService.getGames(page);
+    } on RawgException catch (e) {
+      errorText = e.message;
     } catch (e) {
-      log(e.toString());
+      errorText = "An error occured";
     } finally {
       isLoading = false;
       page++;
@@ -78,8 +83,10 @@ class HomeProvider extends ChangeNotifier {
 
       List<GameModel?>? games = await rawgService.getGames(page);
       allGames!.addAll(games!);
+    } on RawgException catch (e) {
+      errorText = e.message;
     } catch (e) {
-      log(e.toString());
+      errorText = "An error occured";
     } finally {
       isPaginationLoading = false;
       page++;

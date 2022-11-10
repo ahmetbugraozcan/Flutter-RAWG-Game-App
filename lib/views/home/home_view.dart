@@ -1,3 +1,4 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:appcentflutterassignment/core/constants/enums/lottie_enums.dart';
 import 'package:appcentflutterassignment/core/extensions/media_query_extensions.dart';
 import 'package:appcentflutterassignment/core/extensions/theme_extension.dart';
@@ -23,9 +24,10 @@ class HomeView extends StatelessWidget {
               return const Center(child: CircularProgressIndicator());
             } else {
               if (context.read<HomeProvider>().allGames == null) {
-                return const Center(
+                return Center(
                   child: Text(
-                    "An error occurred. Please try again later.",
+                    context.read<HomeProvider>().errorText ??
+                        "An error occurred. Please try again later.",
                     textAlign: TextAlign.center,
                   ),
                 );

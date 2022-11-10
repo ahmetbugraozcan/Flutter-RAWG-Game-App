@@ -26,9 +26,13 @@ class _GameDetailsViewState extends State<GameDetailsView> {
   @override
   Widget build(BuildContext context) {
     if (widget.gameID == null) {
-      return const Scaffold(
+      return Scaffold(
         body: Center(
-          child: Text("An error occurred! Please try again later."),
+          child: Text(
+            context.read<GameDetailsProvider>().errorMessage ??
+                "An error occurred. Please try again later.",
+            textAlign: TextAlign.end,
+          ),
         ),
       );
     } else {
@@ -40,8 +44,10 @@ class _GameDetailsViewState extends State<GameDetailsView> {
             } else {
               if (context.watch<GameDetailsProvider>().gameDetailModel ==
                   null) {
-                return const Center(
-                  child: Text("An error occurred! Please try again later."),
+                return Center(
+                  child: Text(
+                      context.read<GameDetailsProvider>().errorMessage ??
+                          "An error occurred. Please try again later."),
                 );
               } else {
                 GameDetailModel gameDetail =
