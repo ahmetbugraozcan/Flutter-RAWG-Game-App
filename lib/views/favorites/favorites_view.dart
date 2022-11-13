@@ -39,16 +39,30 @@ class FavoritesView extends StatelessWidget {
               ],
             );
           } else {
-            if (context.watch<FavoritesProvider>().isLoading) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            return ListView.builder(
-              itemCount: context.watch<FavoritesProvider>().favorites.length,
-              itemBuilder: (context, index) {
-                return FavoritesGameCard(
-                    gameDetailModel:
-                        context.watch<FavoritesProvider>().favorites[index]);
-              },
+            // if (context.watch<FavoritesProvider>().isLoading) {
+            //   return const Center(child: CircularProgressIndicator());
+            // }
+            return Column(
+              children: [
+                Builder(builder: (context) {
+                  if (context.watch<FavoritesProvider>().isLoading) {
+                    return const LinearProgressIndicator();
+                  }
+                  return const SizedBox();
+                }),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount:
+                        context.watch<FavoritesProvider>().favorites.length,
+                    itemBuilder: (context, index) {
+                      return FavoritesGameCard(
+                          gameDetailModel: context
+                              .watch<FavoritesProvider>()
+                              .favorites[index]);
+                    },
+                  ),
+                ),
+              ],
             );
           }
         },

@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:appcentflutterassignment/core/constants/enums/preferences_enums.dart';
 import 'package:appcentflutterassignment/core/init/cache/cache_manager.dart';
 import 'package:appcentflutterassignment/models/game_detail_model.dart';
@@ -36,12 +35,15 @@ class FavoritesProvider extends ChangeNotifier {
     if (stringList != null) {
       favoritesIds = stringList.map((e) => int.parse(e)).toList();
 
-      favoriteGameFutures =
-          favoritesIds.map((e) => _rawgService.getGameDetails(e)).toList();
-      var favoriteGames = await Future.wait(favoriteGameFutures);
-      for (var element in favoriteGames) {
-        favorites.add(element);
-      }
+      favoriteGameFutures = favoritesIds.map((e) {
+        return _rawgService.getGameDetails(e).then((value) async {
+          favorites.add(value);
+          notifyListeners();
+        });
+      }).toList();
+
+      await Future.wait(favoriteGameFutures);
+
       isLoading = false;
     }
     notifyListeners();
