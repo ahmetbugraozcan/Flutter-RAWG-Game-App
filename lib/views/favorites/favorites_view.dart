@@ -2,11 +2,8 @@ import 'package:appcentflutterassignment/core/constants/enums/lottie_enums.dart'
 import 'package:appcentflutterassignment/core/extensions/media_query_extensions.dart';
 import 'package:appcentflutterassignment/core/extensions/theme_extension.dart';
 import 'package:appcentflutterassignment/core/utils/utils.dart';
-import 'package:appcentflutterassignment/models/game_detail_model.dart';
-import 'package:appcentflutterassignment/models/game_model.dart';
 import 'package:appcentflutterassignment/provider/favorites_provider.dart';
 import 'package:appcentflutterassignment/widgets/cards/favorites_game_card.dart';
-import 'package:appcentflutterassignment/widgets/cards/game_card.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';

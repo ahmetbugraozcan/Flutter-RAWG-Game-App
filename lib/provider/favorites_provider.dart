@@ -28,11 +28,11 @@ class FavoritesProvider extends ChangeNotifier {
   /// Cache'de liste olarak idler tutuluyor. daha sonra burada bu idler ile tek tek gamedetailmodel çekiliyor.
   /// homeda [GameModel] kullanılırken burada yani favoriler sekmesinde [GameDetailModel] kullanılıyor.
   getFavoritesFromCache() async {
-    isLoading = true;
     List<String>? stringList =
         CacheManager.instance.getStringListValue(PreferencesEnums.FAVORITES);
 
     if (stringList != null) {
+      isLoading = true;
       favoritesIds = stringList.map((e) => int.parse(e)).toList();
 
       favoriteGameFutures = favoritesIds.map((e) {
@@ -45,8 +45,8 @@ class FavoritesProvider extends ChangeNotifier {
       await Future.wait(favoriteGameFutures);
 
       isLoading = false;
+      notifyListeners();
     }
-    notifyListeners();
   }
 
   Future<bool> addFavorite(GameDetailModel? model) async {

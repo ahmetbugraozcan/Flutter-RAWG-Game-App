@@ -46,7 +46,7 @@ class _SplashViewState extends State<SplashView> {
             ),
             Text(
               "Discover games!",
-              style: context.textTheme.caption,
+              style: context.textTheme.bodySmall,
               textAlign: TextAlign.center,
             )
           ],
